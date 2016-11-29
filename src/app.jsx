@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import './style/app.less';
 
+import tapEvent from 'react-tap-event-plugin';
+tapEvent();
 
 const App = React.createClass({
   render: function() {
