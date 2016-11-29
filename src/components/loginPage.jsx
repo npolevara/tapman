@@ -1,8 +1,10 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 
 import '../style/loginPage.less'
 
+const style = {
+  margin: 12,
+};
 
 const loginPage = React.createClass({
   handleLogin() {
@@ -13,7 +15,6 @@ const loginPage = React.createClass({
     return (
       <div className='loginPage'>
         Login Page
-        <RaisedButton />
       </div>
     );
   }
