@@ -1,12 +1,13 @@
 import React from 'react';
-
-import '../style/loginPage.less'
+import Theme from 'material-ui/styles/MuiThemeProvider';
+import Button from 'material-ui/RaisedButton';
+import '../style/loginPage.less';
 
 const style = {
   margin: 12,
 };
 
-const loginPage = React.createClass({
+const Login = React.createClass({
   handleLogin() {
     console.log('Login clicked');
   },
@@ -14,10 +15,30 @@ const loginPage = React.createClass({
   render() {
     return (
       <div className='loginPage'>
-        Login Page
+        <div className='loginPage_banner'>
+          <div className='loginPage_text'>
+            <h1>Taskman</h1>
+            <p>Organise your life!</p>
+            <Button 
+              label="Login"
+              className="login-button"
+              onClick={this.handleLogin}
+            />
+          </div>
+          <img 
+            src='../img/desk.jpg'
+            className='loginPage_image'
+          />
+        </div>
       </div>
     );
   }
 });
+
+var loginPage = () => (
+  <Theme>
+    <Login />
+  </Theme>
+);
 
 export default loginPage;

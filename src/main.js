@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router';
+import sessionActions from './actions/sessionAction.js';
 
-import Mui from 'material-ui/styles/MuiThemeProvider';
 import Taskman from './app.jsx';
-import login from './components/loginPage.jsx';
+import Login from './components/loginPage.jsx';
 
-const App = () => (
-  <Mui>
-    <Taskman />
-  </Mui>
-);
+import api from './api';
 
-ReactDOM.render(
-  <Router history={hashHistory}>
-    <Route path='/' component={Taskman} />
-    <Route path='/login' component={login} />
-  </Router>, document.getElementById('mount-point')
-);
+window.googleApi = () => {
+  sessionActions.authorize(true, renderApp);
+};
+
+function renderApp() {
+  ReactDOM.render(
+    <Router history={hashHistory}>
+      <Route path='/login' component={Login}>
+        <Route path='/' component={Taskman} />
+      </Route>
+    </Router>, document.getElementById('mount-point')
+  );
+}
 

@@ -10,14 +10,16 @@ const App = React.createClass({
   render: function() {
     return(
       <div className="app">
-        <Button label="Default" />
-        App--App
+        <Button 
+          label="Login"
+          className="login-button"
+          onClick={this.handleLogIn} />
       </div>
     );
   }
 });
 
-const AppWithTheme = () => (
+var AppWithTheme = () => (
   <Theme>
     <App />
   </Theme>
