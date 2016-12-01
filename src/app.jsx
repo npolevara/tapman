@@ -1,28 +1,26 @@
 import React from 'react';
 import Theme from 'material-ui/styles/MuiThemeProvider';
-import Button from 'material-ui/RaisedButton';
+import { Link } from 'react-router';
+
 import './style/app.less';
 
-import tapEvent from 'react-tap-event-plugin';
-tapEvent();
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-const App = React.createClass({
-  render: function() {
-    return(
-      <div className="app">
-        <Button 
-          label="Login"
-          className="login-button"
-          onClick={this.handleLogIn} />
-      </div>
-    );
-  }
+injectTapEventPlugin();
+
+export default React.createClass({
+    render() {
+      return (
+        <Theme>
+          <div className="app">
+            <ul role="nav">
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/about">About</Link></li>
+            </ul>
+            {this.props.children}
+          </div>
+        </Theme>
+      );
+    }
 });
 
-var AppWithTheme = () => (
-  <Theme>
-    <App />
-  </Theme>
-);
-
-export default AppWithTheme;

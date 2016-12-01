@@ -1,15 +1,52 @@
 import React from 'react';
-import Theme from 'material-ui/styles/MuiThemeProvider';
+import sessionAction from '../actions/sessionAction';
+import sessionStore from '../stores/sessionStore';
 import Button from 'material-ui/RaisedButton';
+
 import '../style/loginPage.less';
 
 const style = {
   margin: 12,
 };
 
-const Login = React.createClass({
+function getStateFromFlux() {
+  return {
+    isLoggedIn: sessionStore.isLoggedIn()
+  };
+}
+
+
+export default React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
+  getInitialState() {
+    return getStateFromFlux();
+  },
+
+  componentDidMount() {
+    sessionStore.addChangeListener(this.onChange);
+  },
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.isLoggedIn) {
+      const { location } = this.props
+
+      if (location.state && location.state.nextPathname) {
+        this.context.router.replace(location.state.nextPathname);
+      } else {
+        this.context.router.replace('/lists');
+      }
+    }
+  },
+
+  componentWillUnmount() {
+    sessionStore.removeChangeListener(this.onChange);
+  },
+
   handleLogin() {
-    console.log('Login clicked');
+    sessionAction.authorize();
   },
 
   render() {
@@ -32,13 +69,10 @@ const Login = React.createClass({
         </div>
       </div>
     );
+  },
+
+  onChange() {
+    this.setState(getStateFromFlux());
   }
+
 });
-
-var loginPage = () => (
-  <Theme>
-    <Login />
-  </Theme>
-);
-
-export default loginPage;

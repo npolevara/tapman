@@ -3,6 +3,7 @@ import appConstants from '../stores/sessionStore.js';
 
 import api from '../api';
 
+
 const sessionActions = {
   authorize(immediate = false, callback) {
     api.authorize({ immediate })
@@ -11,7 +12,7 @@ const sessionActions = {
         type: appConstants.SESSION_AUTHORIZE_SUCCESS
       });
 
-      callback();
+      if (callback) callback();
     })
     .catch((err) => {
       appDispatcher.dispatch({
@@ -19,7 +20,7 @@ const sessionActions = {
         error: err
       });
 
-      callback();
+      if (callback) callback();
     });
   }
 };

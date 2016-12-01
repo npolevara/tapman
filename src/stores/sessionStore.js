@@ -1,51 +1,51 @@
-import appDispatcher from '../dispatcher/appDispatcher.js';
-import appConstants from '../stores/sessionStore.js';
 import { EventEmitter } from 'events';
+
+import AppDispatcher from '../dispatcher/appDispatcher';
+import AppConstants from '../constants/appConstants';
 
 const CHANGE_EVENT = 'change';
 
-let isLoggedIn = false;
+let _isLoggedIn = false;
 
-const sessionStore = Object.assign({}, EventEmitter.prototype, {
-  isLoggedIn() {
-    return isLoggedIn;
-  },
+const SessionStore = Object.assign({}, EventEmitter.prototype, {
+    isLoggedIn() {
+        return _isLoggedIn;
+    },
 
-  emitChange() {
-    this.emit(CHANGE_EVENT);
-  },
+    emitChange() {
+        this.emit(CHANGE_EVENT);
+    },
 
-  addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
+    addChangeListener(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
 
-  removeChangeListener(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
-  }
+    removeChangeListener(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    }
 });
 
-appDispatcher.register(action => {
-  console.info(action.type, action);
+AppDispatcher.register(action => {
+    console.info(action.type, action);
 
-  switch(action.type) {
-    case appConstants.SESSION_AUTHORIZE_SUCCESS: {
-      isLoggedIn = true;
+    switch(action.type) {
+        case AppConstants.SESSION_AUTHORIZE_SUCS: {
+            _isLoggedIn = true;
 
-      sessionStore.emitChange();
-      break;
+            SessionStore.emitChange();
+            break;
+        }
+
+        case AppConstants.SESSION_AUTHORIZE_FAIL: {
+            _isLoggedIn = false;
+
+            SessionStore.emitChange();
+            break;
+        }
+
+        default: {
+        }
     }
-
-    case appConstants.SESSION_AUTHORIZE_FAIL: {
-      isLoggedIn = false;
-
-      sessionStore.emitChange();
-      break;
-    }
-
-    default: {
-
-    }
-  }
 });
 
-export default sessionStore;
+export default SessionStore;
